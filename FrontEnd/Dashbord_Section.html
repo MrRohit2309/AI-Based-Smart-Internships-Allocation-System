@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InternMatch AI - Smart Internship Matching</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 30px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo i {
+            font-size: 2.5rem;
+            color: #4361ee;
+        }
+        
+        .logo h1 {
+            font-size: 2.2rem;
+            background: linear-gradient(90deg, #4361ee 0%, #3a0ca3 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: #4a4e69;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        
+        nav a:hover, nav a.active {
+            color: #4361ee;
+        }
+        
+        .hero {
+            background: linear-gradient(120deg, #3a0ca3 0%, #4361ee 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .hero-content {
+            max-width: 60%;
+        }
+        
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: white;
+            color: #3a0ca3;
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+            margin-left: 15px;
+        }
+        
+        .hero-image {
+            width: 35%;
+            text-align: center;
+        }
+        
+        .hero-image i {
+            font-size: 8rem;
+            opacity: 0.8;
+        }
+        
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 3fr;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .filter-panel {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .filter-panel h3 {
+            margin-bottom: 20px;
+            color: #3a0ca3;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .filter-group {
+            margin-bottom: 20px;
+        }
+        
+        .filter-group h4 {
+            margin-bottom: 10px;
+            color: #4a4e69;
+        }
+        
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .skill-pill {
+            background: #f0f0f0;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .skill-pill:hover, .skill-pill.active {
+            background: #4361ee;
+            color: white;
+        }
+        
+        .slider-container {
+            margin-top: 10px;
+        }
+        
+        .slider {
+            width: 100%;
+            height: 8px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: #ddd;
+            outline: none;
+            border-radius: 4px;
+        }
+        
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #4361ee;
+            cursor: pointer;
+        }
+        
+        .results-panel {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .results-header h3 {
+            color: #3a0ca3;
+        }
+        
+        .sort-options select {
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+        
+        .internship-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .internship-card {
+            border: 1px solid #eee;
+            border-radius: 12px;
+            padding: 20px;
+            transition: transform 0.3s;
+        }
+        
+        .internship-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .company {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .company-logo {
+            width: 50px;
+            height: 50px;
+            background: #f0f0f0;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #3a0ca3;
+        }
+        
+        .company-info h4 {
+            font-size: 1.2rem;
+            color: #3a0ca3;
+        }
+        
+        .company-info p {
+            color: #6c757d;
+        }
+        
+        .match-score {
+            background: linear-gradient(90deg, #4361ee 0%, #3a0ca3 100%);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        
+        .card-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #4a4e69;
+        }
+        
+        .detail-item i {
+            color: #4361ee;
+        }
+        
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .tag {
+            background: #f8f9fa;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            color: #4a4e69;
+        }
+        
+        .card-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .policy-badges {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .badge {
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .badge-rural {
+            background: #ffe5ec;
+            color: #c1121f;
+        }
+        
+        .badge-ad {
+            background: #e6fcf5;
+            color: #0ca678;
+        }
+        
+        .badge-diversity {
+            background: #e7f5ff;
+            color: #1c7ed6;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            color: #6c757d;
+            margin-top: 40px;
+            border-top: 1px solid #ddd;
+        }
+        
+        @media (max-width: 900px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero-content {
+                max-width: 100%;
+            }
+            
+            .hero-image {
+                display: none;
+            }
+            
+            .card-details {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-brain"></i>
+                <h1>InternMatch AI</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="Dashbord_Section.html" class="active">Dashboard</a></li>
+                    <!-- <li><a href="Internship_Section.html">Internships</a></li> -->
+                    <li><a href="Profile_Section.html">Profile</a></li>
+                    <!-- <li><a href="Admin_Section.html">Admin</a></li> -->
+                </ul>
+            </nav>
+        </header>
+
+        <section class="hero">
+            <div class="hero-content">
+                <h2>Smart Internship Matching with AI</h2>
+                <p>Our AI engine matches your skills, qualifications, and preferences with the perfect internship opportunity while promoting diversity and inclusion.</p>
+                <div class="hero-actions">
+                    <a href="find_my_page.html" class="btn">Find My Match</a>
+                    <a href="/HomePage.html#how-it-works" class="btn btn-secondary">How It Works</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <i class="fas fa-robot"></i>
+            </div>
+        </section>
+
+        <section class="dashboard">
+            <div class="filter-panel">
+                <h3><i class="fas fa-sliders-h"></i> Filters</h3>
+                
+                <div class="filter-group">
+                    <h4>Skills Match</h4>
+                    <div class="skills-list">
+                        <div class="skill-pill active">Python</div>
+                        <div class="skill-pill">Java</div>
+                        <div class="skill-pill">ML</div>
+                        <div class="skill-pill">Data Analysis</div>
+                        <div class="skill-pill">Web Dev</div>
+                        <div class="skill-pill">UI/UX</div>
+                    </div>
+                </div>
+                
+                <div class="filter-group">
+                    <h4>Location Preference</h4>
+                    <div class="skills-list">
+                        <div class="skill-pill active">Remote</div>
+                        <div class="skill-pill">Hybrid</div>
+                        <div class="skill-pill">Mumbai</div>
+                        <div class="skill-pill">Bangalore</div>
+                        <div class="skill-pill">Delhi</div>
+                    </div>
+                </div>
+                
+                <div class="filter-group">
+                    <h4>Diversity Emphasis</h4>
+                    <div class="slider-container">
+                        <input type="range" min="0" max="100" value="70" class="slider" id="diversitySlider">
+                        <p>Balanced approach</p>
+                    </div>
+                </div>
+                
+                <div class="filter-group">
+                    <h4>Sector Interest</h4>
+                    <div class="skills-list">
+                        <div class="skill-pill active">Tech</div>
+                        <div class="skill-pill">Finance</div>
+                        <div class="skill-pill">Healthcare</div>
+                        <div class="skill-pill">Education</div>
+                    </div>
+                </div>
+                
+                <a href="#" class="btn" style="width: 100%; text-align: center; margin-top: 20px;">Apply Filters</a>
+            </div>
+            
+            <div class="results-panel">
+                <div class="results-header">
+                    <h3>Recommended Internships</h3>
+                    <div class="sort-options">
+                        <select>
+                            <option>Sort by: Best Match</option>
+                            <option>Sort by: Latest</option>
+                            <option>Sort by: Company</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="internship-list">
+                    <div class="internship-card">
+                        <div class="card-header">
+                            <div class="company">
+                                <div class="company-logo">TC</div>
+                                <div class="company-info">
+                                    <h4>Data Science Intern</h4>
+                                    <p>TechCorp India</p>
+                                </div>
+                            </div>
+                            <div class="match-score">94% Match</div>
+                        </div>
+                        
+                        <div class="card-details">
+                            <div class="detail-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Remote (with quarterly meetups in Bangalore)</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>3-6 months</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-rupee-sign"></i>
+                                <span>Stipend: ₹25,000/month</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-graduation-cap"></i>
+                                <span>Computer Science or related field</span>
+                            </div>
+                        </div>
+                        
+                        <div class="tags">
+                            <span class="tag">Python</span>
+                            <span class="tag">Machine Learning</span>
+                            <span class="tag">Data Analysis</span>
+                            <span class="tag">SQL</span>
+                        </div>
+                        
+                        <div class="card-actions">
+                            <div class="policy-badges">
+                                <span class="badge badge-rural">Rural Boost</span>
+                                <span class="badge badge-ad">Aspirational District</span>
+                            </div>
+                            <a href="Internship_Form.html" class="btn">Apply Now</a>
+                        </div>
+                    </div>
+                    
+                    <div class="internship-card">
+                        <div class="card-header">
+                            <div class="company">
+                                <div class="company-logo">FB</div>
+                                <div class="company-info">
+                                    <h4>Frontend Developer Intern</h4>
+                                    <p>FinTech Builders</p>
+                                </div>
+                            </div>
+                            <div class="match-score">88% Match</div>
+                        </div>
+                        
+                        <div class="card-details">
+                            <div class="detail-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Hybrid (Mumbai)</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>6 months</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-rupee-sign"></i>
+                                <span>Stipend: ₹30,000/month</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-graduation-cap"></i>
+                                <span>Any engineering discipline</span>
+                            </div>
+                        </div>
+                        
+                        <div class="tags">
+                            <span class="tag">React</span>
+                            <span class="tag">JavaScript</span>
+                            <span class="tag">HTML/CSS</span>
+                            <span class="tag">UI/UX</span>
+                        </div>
+                        
+                        <div class="card-actions">
+                            <div class="policy-badges">
+                                <span class="badge badge-diversity">Diversity Focus</span>
+                            </div>
+                            <a href="Internship_Form.html02" class="btn">Apply Now</a>
+                        </div>
+                    </div>
+                    
+                    <div class="internship-card">
+                        <div class="card-header">
+                            <div class="company">
+                                <div class="company-logo">HC</div>
+                                <div class="company-info">
+                                    <h4>Healthcare Data Analyst</h4>
+                                    <p>HealthCare Innovations</p>
+                                </div>
+                            </div>
+                            <div class="match-score">82% Match</div>
+                        </div>
+                        
+                        <div class="card-details">
+                            <div class="detail-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Delhi</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>4 months</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-rupee-sign"></i>
+                                <span>Stipend: ₹20,000/month</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-graduation-cap"></i>
+                                <span>Healthcare or Data Science related</span>
+                            </div>
+                        </div>
+                        
+                        <div class="tags">
+                            <span class="tag">Python</span>
+                            <span class="tag">Data Visualization</span>
+                            <span class="tag">Statistics</span>
+                            <span class="tag">Tableau</span>
+                        </div>
+                        
+                        <div class="card-actions">
+                            <div class="policy-badges">
+                                <span class="badge badge-ad">Aspirational District</span>
+                                <span class="badge badge-diversity">Diversity Focus</span>
+                            </div>
+                            <a href="Internship_Form03.html" class="btn">Apply Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>© 2023 InternMatch AI | PM Internship Scheme Initiative</p>
+            <p>Smart matching for better opportunities and inclusive growth</p>
+        </footer>
+    </div>
+
+    <script>
+        // Simple interactive functionality for the demo
+        document.addEventListener('DOMContentLoaded', function() {
+            // Skill pills selection
+            const skillPills = document.querySelectorAll('.skill-pill');
+            skillPills.forEach(pill => {
+                pill.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                });
+            });
+            
+            // Diversity slider text update
+            const diversitySlider = document.getElementById('diversitySlider');
+            const diversityText = diversitySlider.nextElementSibling;
+            
+            diversitySlider.addEventListener('input', function() {
+                if (this.value < 33) {
+                    diversityText.textContent = "Merit-focused";
+                } else if (this.value < 66) {
+                    diversityText.textContent = "Balanced approach";
+                } else {
+                    diversityText.textContent = "Diversity-focused";
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Internship Section - InternMatch AI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 30px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo i {
+            font-size: 2.5rem;
+            color: #4361ee;
+        }
+        
+        .logo h1 {
+            font-size: 2.2rem;
+            background: linear-gradient(90deg, #4361ee 0%, #3a0ca3 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: #4a4e69;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        
+        nav a:hover, nav a.active {
+            color: #4361ee;
+        }
+        
+        .page-header {
+            background: linear-gradient(120deg, #3a0ca3 0%, #4361ee 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .page-header h2 {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+        }
+        
+        .page-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: white;
+            color: #3a0ca3;
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+            margin-left: 15px;
+        }
+        
+        .search-section {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
+        
+        .search-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .search-header h3 {
+            color: #3a0ca3;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .search-container {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+        }
+        
+        .filter-btn {
+            background: #f0f0f0;
+            border: none;
+            padding: 0 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            color: #4a4e69;
+        }
+        
+        .filters-panel {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .filters-panel.active {
+            display: grid;
+        }
+        
+        .filter-group {
+            margin-bottom: 15px;
+        }
+        
+        .filter-group h4 {
+            margin-bottom: 10px;
+            color: #4a4e69;
+        }
+        
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .skill-pill {
+            background: #f0f0f0;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .skill-pill:hover, .skill-pill.active {
+            background: #4361ee;
+            color: white;
+        }
+        
+        .internship-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .internship-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+        
+        .internship-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-header {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        
+        .company {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .company-logo {
+            width: 50px;
+            height: 50px;
+            background: #f0f0f0;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #3a0ca3;
+            font-size: 1.2rem;
+        }
+        
+        .company-info h4 {
+            font-size: 1.2rem;
+            color: #3a0ca3;
+        }
+        
+        .company-info p {
+            color: #6c757d;
+        }
+        
+        .match-score {
+            background: linear-gradient(90deg, #4361ee 0%, #3a0ca3 100%);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .card-content {
+            padding: 20px;
+        }
+        
+        .card-details {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #4a4e69;
+        }
+        
+        .detail-item i {
+            color: #4361ee;
+            width: 20px;
+        }
+        
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .tag {
+            background: #f8f9fa;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            color: #4a4e69;
+        }
+        
+        .policy-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .badge {
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .badge-rural {
+            background: #ffe5ec;
+            color: #c1121f;
+        }
+        
+        .badge-ad {
+            background: #e6fcf5;
+            color: #0ca678;
+        }
+        
+        .badge-diversity {
+            background: #e7f5ff;
+            color: #1c7ed6;
+        }
+        
+        .card-footer {
+            padding: 15px 20px;
+            background: #f8f9fa;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .duration {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 30px;
+        }
+        
+        .pagination-btn {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            background: white;
+            color: #4a4e69;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+        }
+        
+        .pagination-btn.active, .pagination-btn:hover {
+            background: #4361ee;
+            color: white;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            color: #6c757d;
+            margin-top: 40px;
+            border-top: 1px solid #ddd;
+        }
+        
+        @media (max-width: 900px) {
+            .internship-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .search-container {
+                flex-direction: column;
+            }
+            
+            .filters-panel {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-brain"></i>
+                <h1>InternMatch AI</h1>
+            </div>
+            <nav>
+                <ul>
+                    <!-- <li><a href="HomePage.html">Home</a></li> -->
+                    <li><a href="Internship_Section.html" class="active">Internships</a></li>
+                    <!-- <li><a href="Profile_Section.html">Profile</a></li> -->
+                    <li><a href="Admin_Section.html">Admin</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <section class="page-header">
+            <h2>Find Your Perfect Internship</h2>
+            <p>Browse through hundreds of opportunities matched to your skills and preferences</p>
+        </section>
+
+        <section class="search-section">
+            <div class="search-header">
+                <h3><i class="fas fa-search"></i> Find Internships</h3>
+                <p id="opportunity-count">127 opportunities available</p>
+            </div>
+            
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="Search by skill, company, or role...">
+                <button class="filter-btn" id="filterToggle">
+                    <i class="fas fa-filter"></i> Filters
+                </button>
+                <button class="btn">Search</button>
+            </div>
+            
+            <div class="filters-panel" id="filtersPanel">
+                <div class="filter-group">
+                    <h4>Skills Match</h4>
+                    <div class="skills-list">
+                        <div class="skill-pill active">Python</div>
+                        <div class="skill-pill">Java</div>
+                        <div class="skill-pill">ML</div>
+                        <div class="skill-pill">Data Analysis</div>
+                        <div class="skill-pill">Web Dev</div>
+                        <div class="skill-pill">UI/UX</div>
+                    </div>
+                </div>
+                
+                <div class="filter-group">
+                    <h4>Location Preference</h4>
+                    <div class="skills-list">
+                        <div class="skill-pill active">Remote</div>
+                        <div class="skill-pill">Hybrid</div>
+                        <div class="skill-pill">Mumbai</div>
+                        <div class="skill-pill">Bangalore</div>
+                        <div class="skill-pill">Delhi</div>
+                    </div>
+                </div>
+                
+                <div class="filter-group">
+                    <h4>Sector Interest</h4>
+                    <div class="skills-list">
+                        <div class="skill-pill active">Tech</div>
+                        <div class="skill-pill">Finance</div>
+                        <div class="skill-pill">Healthcare</div>
+                        <div class="skill-pill">Education</div>
+                    </div>
+                </div>
+                
+                <div class="filter-group">
+                    <h4>Stipend Range</h4>
+                    <div class="skills-list">
+                        <div class="skill-pill">Under ₹20k</div>
+                        <div class="skill-pill active">₹20k - ₹30k</div>
+                        <div class="skill-pill">₹30k - ₹50k</div>
+                        <div class="skill-pill">Above ₹50k</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="internship-grid" id="internshipGrid">
+            <!-- Internship cards will be dynamically generated here -->
+        </div>
+
+
+        <footer>
+            <p>© 2023 InternMatch AI | PM Internship Scheme Initiative</p>
+            <p>Smart matching for better opportunities and inclusive growth</p>
+        </footer>
+    </div>
+
+    <script>
+    // ================================
+    // 🔹 FETCH INTERNSHIPS FROM BACKEND
+    // ================================
+    async function loadInternshipsFromDB() {
+        try {
+            const res = await fetch("http://127.0.0.1:3000/internships/all");
+            const data = await res.json();
+
+            if (data.success && data.internships.length > 0) {
+                const internships = data.internships.map((internship) => ({
+                    id: internship.internship_id,
+                    title: internship.title,
+                    company: internship.company,
+                    logo: internship.company.substring(0, 2).toUpperCase(),
+                    location: internship.location,
+                    stipend: internship.stipend || "Not specified",
+                    field: internship.field || "General",
+                    skills: internship.skills ? internship.skills.split(",").map(s => s.trim()) : [],
+                    badges: internship.badges ? internship.badges.split(",").map(b => b.trim()) : [],
+                    duration: internship.duration || "Not specified",
+                    matchScore: internship.match_score || Math.floor(Math.random() * 20) + 80
+                }));
+
+                renderInternships(internships);
+            } else {
+                document.getElementById("internshipGrid").innerHTML = `
+                    <p style="text-align:center; color:#6c757d; font-size:1.2rem; margin-top:30px;">
+                        No internships available at the moment.
+                    </p>`;
+                document.getElementById("opportunity-count").textContent = "0 opportunities available";
+            }
+        } catch (error) {
+            console.error("❌ Error fetching internships:", error);
+            document.getElementById("internshipGrid").innerHTML = `
+                <p style="text-align:center; color:#dc3545; font-size:1.1rem; margin-top:30px;">
+                    Failed to load internships. Please try again later.
+                </p>`;
+        }
+    }
+
+    // ================================
+    // 🔹 GENERATE INTERNSHIP CARD HTML
+    // ================================
+    function generateInternshipCard(internship) {
+        // Badges
+        let badgesHTML = "";
+        if (internship.badges && internship.badges.length > 0) {
+            internship.badges.forEach((badge) => {
+                let badgeClass = "";
+                if (badge === "Rural Boost") badgeClass = "badge-rural";
+                else if (badge === "Aspirational District") badgeClass = "badge-ad";
+                else if (badge === "Diversity Focus") badgeClass = "badge-diversity";
+                else badgeClass = "badge-ad";
+                badgesHTML += `<span class="badge ${badgeClass}">${badge}</span>`;
+            });
+        }
+
+        // Skills
+        let skillsHTML = "";
+        if (internship.skills && internship.skills.length > 0) {
+            internship.skills.forEach((skill) => {
+                skillsHTML += `<span class="tag">${skill}</span>`;
+            });
+        }
+
+        return `
+            <div class="internship-card" data-id="${internship.id}">
+                <div class="card-header">
+                    <div class="company">
+                        <div class="company-logo">${internship.logo}</div>
+                        <div class="company-info">
+                            <h4>${internship.title}</h4>
+                            <p>${internship.company}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-content">
+                    <div class="card-details">
+                        <div class="detail-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>${internship.location}</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-rupee-sign"></i>
+                            <span>Stipend: ${internship.stipend}</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span>${internship.field}</span>
+                        </div>
+                    </div>
+
+                    <div class="tags">${skillsHTML}</div>
+                    <div class="policy-badges">${badgesHTML}</div>
+                </div>
+
+                <div class="card-footer">
+                    <span class="duration">${internship.duration}</span>
+                </div>
+            </div>
+        `;
+    }
+
+    // ================================
+    // 🔹 APPLY FOR INTERNSHIP
+    // ================================
+    async function applyForInternship(internshipId, button) {
+        try {
+            // 👤 Assume user_id is saved in sessionStorage after login
+            const userId = sessionStorage.getItem("user_id");
+
+            if (!userId) {
+                alert("⚠️ Please log in to apply for internships.");
+                return;
+            }
+
+            // Disable button while applying
+            button.disabled = true;
+            button.textContent = "Applying...";
+
+            const res = await fetch("http://127.0.0.1:3000/applications/apply", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ user_id: userId, internship_id: internshipId })
+            });
+
+            const data = await res.json();
+
+            if (data.success) {
+                button.textContent = "Applied!";
+                button.style.background = "#0ca678";
+                alert("✅ Application submitted successfully!");
+            } else {
+                button.textContent = "Apply Now";
+                alert("❌ " + data.message);
+            }
+
+        } catch (err) {
+            console.error("❌ Error applying for internship:", err);
+            alert("⚠️ Something went wrong while applying.");
+        } finally {
+            setTimeout(() => {
+                button.disabled = false;
+                button.textContent = "Apply Now";
+            }, 2500);
+        }
+    }
+
+    // ================================
+    // 🔹 RENDER ALL INTERNSHIPS
+    // ================================
+    function renderInternships(internships) {
+        const internshipGrid = document.getElementById("internshipGrid");
+        internshipGrid.innerHTML = "";
+
+        // Sort by latest added (descending)
+        const sorted = [...internships].sort((a, b) => b.id - a.id);
+
+        sorted.forEach((internship) => {
+            internshipGrid.innerHTML += generateInternshipCard(internship);
+        });
+
+        // Update count
+        document.getElementById("opportunity-count").textContent = `${internships.length} opportunities available`;
+
+        // Apply button click handler
+        document.querySelectorAll(".apply-btn").forEach((btn) => {
+            btn.addEventListener("click", function () {
+                const internshipId = this.getAttribute("data-id");
+                applyForInternship(internshipId, this);
+            });
+        });
+    }
+
+    // ================================
+    // 🔹 PAGE INITIALIZATION
+    // ================================
+    document.addEventListener("DOMContentLoaded", function () {
+        // Load internships from DB
+        loadInternshipsFromDB();
+
+        // Toggle filters panel
+        const filterToggle = document.getElementById("filterToggle");
+        const filtersPanel = document.getElementById("filtersPanel");
+
+        if (filterToggle && filtersPanel) {
+            filterToggle.addEventListener("click", function () {
+                filtersPanel.classList.toggle("active");
+            });
+        }
+
+        // Skill pills selection
+        const skillPills = document.querySelectorAll(".skill-pill");
+        skillPills.forEach((pill) => {
+            pill.addEventListener("click", function () {
+                this.classList.toggle("active");
+            });
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management - InternMatch AI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 30px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo i {
+            font-size: 2.5rem;
+            color: #4361ee;
+        }
+        
+        .logo h1 {
+            font-size: 2.2rem;
+            background: linear-gradient(90deg, #4361ee 0%, #3a0ca3 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: #4a4e69;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        
+        nav a:hover, nav a.active {
+            color: #4361ee;
+        }
+        
+        .page-header {
+            background: linear-gradient(120deg, #3a0ca3 0%, #4361ee 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .page-header h2 {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .page-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .content-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .card-title {
+            font-size: 1.5rem;
+            color: #3a0ca3;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .search-container {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .search-box {
+            display: flex;
+            align-items: center;
+            background-color: #f5f7fa;
+            border-radius: 8px;
+            padding: 10px 15px;
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .search-box input {
+            border: none;
+            background: transparent;
+            outline: none;
+            margin-left: 10px;
+            width: 100%;
+            font-size: 1rem;
+            color: #333;
+        }
+        
+        .search-box i {
+            color: #6c757d;
+        }
+
+        .user-stats {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            font-size: 1.1rem;
+            color: #4a4e69;
+        }
+        
+        .users-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .users-table th, .users-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .users-table th {
+            color: #6c757d;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        .users-table tr:hover {
+            background-color: #f9f9f9;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .status {
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .status.active {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status.inactive {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+            list-style: none;
+            gap: 5px;
+        }
+        
+        .pagination li a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            text-decoration: none;
+            color: #4a4e69;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .pagination li a:hover, .pagination li a.active {
+            background-color: #4361ee;
+            color: white;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            color: #6c757d;
+            margin-top: 40px;
+            border-top: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-brain"></i>
+                <h1>InternMatch AI</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="Internship_Section.html">Internships</a></li>
+                    <li><a href="Admin_Section.html">Admin</a></li>
+                    <li><a href="#" class="active">Users</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <section class="page-header">
+            <h2><i class="fas fa-users"></i> User Management</h2>
+            <p>Manage all registered users on the platform</p>
+        </section>
+
+        <div class="main-content">
+            <div class="content-card">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fas fa-list"></i> All Users</h3>
+                </div>
+
+                <div class="search-container">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchInput" placeholder="Search users...">
+                    </div>
+                    <div class="user-stats">
+                        <span>Total Users:</span>
+                        <strong id="totalUsers">10</strong>
+                    </div>
+                </div>
+
+                <table class="users-table">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Email</th>
+                            <th>Contact</th>
+                            <th>Preffered Location</th>
+                            <th>status</th>
+                            <th>Internship type</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersTableBody">
+                        </tbody>
+                </table>
+                
+                
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2023 InternMatch AI | PM Internship Scheme Initiative</p>
+            <p>Smart matching for better opportunities and inclusive growth</p>
+        </footer>
+    </div>
+
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+  const tableBody = document.querySelector("tbody");
+  const totalCountHeader = document.querySelector(".page-header h2"); // top header area
+  const totalCountCard = document.getElementById("totalUsers"); // small count near search box
+  const searchInput = document.getElementById("searchInput");
+  let allUsers = [];
+
+  // ✅ Fetch Total Users count for header
+  fetch("http://127.0.0.1:3000/admin/total-users")
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        // Update the count dynamically in the header
+        if (totalCountHeader) {
+          totalCountHeader.innerHTML = `<i class="fas fa-users"></i> User Management <span style="font-size:1.2rem; margin-left:10px;">Total Users: ${data.totalUsers}</span>`;
+        }
+        // Also update the count in the smaller "All Users" card
+        if (totalCountCard) {
+          totalCountCard.textContent = data.totalUsers;
+        }
+      }
+    })
+    .catch(err => console.error("Error fetching total users count:", err));
+
+  // ✅ Fetch all user profiles
+  fetch("http://127.0.0.1:3000/admin/user-profiles")
+    .then(res => res.json())
+    .then(data => {
+      if (data.success && data.users.length > 0) {
+        allUsers = data.users;
+        renderUsers(allUsers);
+
+        // Fallback: if header count isn't updated yet, use local data length
+        if (totalCountHeader && !totalCountHeader.textContent.includes("Total Users")) {
+          totalCountHeader.innerHTML += `<span style="font-size:1.2rem; margin-left:10px;">Total Users: ${allUsers.length}</span>`;
+        }
+        if (totalCountCard) {
+          totalCountCard.textContent = allUsers.length;
+        }
+      } else {
+        tableBody.innerHTML = "<tr><td colspan='6'>No users found in database.</td></tr>";
+      }
+    })
+    .catch(err => {
+      console.error("Error fetching users:", err);
+      tableBody.innerHTML = "<tr><td colspan='6'>Failed to load user data.</td></tr>";
+    });
+
+  // ✅ Render users into table
+  function renderUsers(users) {
+    tableBody.innerHTML = "";
+    users.forEach(user => {
+      const pic = user.profile_picture_url
+        ? `<img src="${user.profile_picture_url}" style="width:40px;height:40px;border-radius:50%;object-fit:cover;">`
+        : `<div style="width:40px;height:40px;border-radius:50%;background:#dee2e6;display:flex;align-items:center;justify-content:center;">${user.full_name ? user.full_name.charAt(0).toUpperCase() : '?'}</div>`;
+
+      const status = user.completion_score >= 50 ? "active" : "inactive";
+      const statusClass = status === "active" ? "active" : "inactive";
+
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td style="display:flex;align-items:center;gap:10px;">
+          ${pic}
+          <div>
+            <div style="font-weight:600;">${user.full_name || 'N/A'}</div>
+            <div style="font-size:0.9rem;color:#6c757d;">${user.professional_title || 'User'}</div>
+          </div>
+        </td>
+        <td>${user.email || '-'}</td>
+        <td>${user.phone || '-'}</td>
+        <td>${user.location || '-'}</td>
+        <td><span class="status ${statusClass}">${status}</span></td>
+        <td>${user.internship_type || '-'}</td>
+      `;
+      tableBody.appendChild(row);
+    });
+  }
+
+  // ✅ Live search functionality
+  if (searchInput) {
+    searchInput.addEventListener("input", function () {
+      const term = this.value.toLowerCase();
+      const filtered = allUsers.filter(user =>
+        user.full_name?.toLowerCase().includes(term) ||
+        user.email?.toLowerCase().includes(term) ||
+        user.location?.toLowerCase().includes(term)
+      );
+      renderUsers(filtered);
+    });
+  }
+});
+</script>
+
+
+
+</body>
+</html>

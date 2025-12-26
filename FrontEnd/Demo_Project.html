@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Management - InternMatch AI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo i {
+            font-size: 2.5rem;
+            color: #4361ee;
+        }
+
+        .logo h1 {
+            font-size: 2.2rem;
+            background: linear-gradient(90deg, #4361ee 0%, #3a0ca3 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #4a4e69;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        nav a:hover, nav a.active {
+            color: #4361ee;
+        }
+
+        .page-header {
+            background: linear-gradient(120deg, #3a0ca3 0%, #4361ee 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .page-header h2 {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .content-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            color: #3a0ca3;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            padding: 12px 25px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            background: #4361ee;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .btn-primary:hover {
+            background: #3a0ca3;
+        }
+
+        .projects-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .project-item {
+            background: #f5f7fa;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .project-details h4 {
+            font-size: 1.2rem;
+            color: #4361ee;
+        }
+
+        .project-details p {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        .project-actions .action-btn {
+            background: none;
+            border: none;
+            font-size: 1rem;
+            color: #6c757d;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-header {
+            padding: 20px 25px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 10;
+        }
+
+        .modal-header h3 {
+            color: #3a0ca3;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #6c757d;
+        }
+
+        .modal-body {
+            padding: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #4a4e69;
+        }
+        
+        .form-group label .required {
+            color: #e74c3c;
+            font-size: 1.1rem;
+            margin-left: 3px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #4361ee;
+        }
+
+        .btn-link {
+            background: none;
+            border: 1px solid #ddd;
+            color: #4a4e69;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-link:hover {
+            background: #f5f7fa;
+            border-color: #4361ee;
+            color: #4361ee;
+        }
+        
+        .date-select-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .modal-footer {
+            padding: 20px 25px;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            position: sticky;
+            bottom: 0;
+            background: white;
+            z-index: 10;
+        }
+        .btn {
+            padding: 12px 25px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .btn-secondary {
+            background: #f8f9fa;
+            color: #6c757d;
+        }
+        .btn-secondary:hover {
+            background: #e9ecef;
+        }
+        
+        @media (max-width: 600px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .skills-section h4 {
+            font-weight: 600;
+            color: #4a4e69;
+            margin-bottom: 10px;
+        }
+
+        .form-checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-brain"></i>
+                <h1>InternMatch AI</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="Internship_Section.html">Internships</a></li>
+                    <li><a href="Admin_Section.html">Admin</a></li>
+                    <li><a href="#" class="active">Projects</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <section class="page-header">
+            <h2><i class="fas fa-project-diagram"></i> Project Management</h2>
+            <p>Showcase your projects and manage them with ease</p>
+        </section>
+
+        <div class="main-content">
+            <div class="content-card">
+                <div class="card-header">
+                    <h3 class="card-title">My Projects</h3>
+                    <button id="addProjectBtn" class="btn-primary"><i class="fas fa-plus"></i> Add Project</button>
+                </div>
+
+                <div class="projects-list">
+                    <div class="project-item">
+                        <div class="project-details">
+                            <h4>Responsive Web Design - Eventify</h4>
+                            <p>Sep 2024 - May 2025</p>
+                        </div>
+                        <div class="project-actions">
+                            <button class="action-btn"><i class="fas fa-edit"></i></button>
+                            <button class="action-btn"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                    </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2023 InternMatch AI | PM Internship Scheme Initiative</p>
+            <p>Smart matching for better opportunities and inclusive growth</p>
+        </footer>
+    </div>
+
+    <div class="modal" id="addProjectModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-plus"></i> Add Project</h3>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="projectForm">
+                    <div class="form-group">
+                        <label for="projectName">Project name <span class="required">*</span></label>
+                        <input type="text" id="projectName" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="projectDescription">Description</label>
+                        <textarea id="projectDescription" class="form-control" rows="4"></textarea>
+                    </div>
+
+                    <div class="skills-section form-group">
+                        <label>Skills</label>
+                        <p style="font-size: 0.9rem; color: #6c757d; margin-bottom: 10px;">We recommend adding your top 5 used in this project. They'll also appear in your Skills section.</p>
+                        <button type="button" class="btn-link"><i class="fas fa-plus"></i> Add skill</button>
+                    </div>
+
+                    <div class="media-section form-group">
+                        <label>Media</label>
+                        <p style="font-size: 0.9rem; color: #6c757d; margin-bottom: 10px;">Add media like images, documents, sites or presentations. Learn more about <a href="#" style="color: #4361ee; text-decoration: none;">media file types supported</a>.</p>
+                        <button type="button" class="btn-link"><i class="fas fa-plus"></i> Add media</button>
+                    </div>
+
+                    <hr style="margin: 20px 0;">
+                    
+                    <h4 style="margin-bottom: 20px;">Additional details</h4>
+
+                    <div class="form-checkbox-group">
+                        <input type="checkbox" id="currentlyWorking">
+                        <label for="currentlyWorking" style="margin-bottom: 0; font-weight: 400;">I am currently working on this project</label>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Start date</label>
+                        <div class="date-select-group">
+                            <select id="startMonth" class="form-control">
+                                <option value="">Month</option>
+                                <option value="1">January</option>
+                                </select>
+                            <select id="startYear" class="form-control">
+                                <option value="">Year</option>
+                                <option value="2025">2025</option>
+                                </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>End date</label>
+                        <div class="date-select-group">
+                            <select id="endMonth" class="form-control">
+                                <option value="">Month</option>
+                            </select>
+                            <select id="endYear" class="form-control">
+                                <option value="">Year</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Contributors</label>
+                        <button type="button" class="btn-link"><i class="fas fa-plus"></i> Add contributor</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary close-btn">Cancel</button>
+                <button type="submit" form="projectForm" class="btn-primary">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const addProjectBtn = document.getElementById('addProjectBtn');
+            const modal = document.getElementById('addProjectModal');
+            const closeButtons = modal.querySelectorAll('.close-btn');
+            
+            // Show the modal
+            addProjectBtn.addEventListener('click', function() {
+                modal.style.display = 'flex';
+            });
+
+            // Close the modal
+            closeButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    modal.style.display = 'none';
+                });
+            });
+
+            // Close modal when clicking outside of it
+            window.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+
+            // Populate year select options
+            const currentYear = new Date().getFullYear();
+            const startYearSelect = document.getElementById('startYear');
+            const endYearSelect = document.getElementById('endYear');
+            for (let i = currentYear; i >= currentYear - 50; i--) {
+                const option = document.createElement('option');
+                option.value = i;
+                option.textContent = i;
+                startYearSelect.appendChild(option);
+                endYearSelect.appendChild(option.cloneNode(true));
+            }
+            
+            // Populate month select options
+            const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            const startMonthSelect = document.getElementById('startMonth');
+            const endMonthSelect = document.getElementById('endMonth');
+            months.forEach((month, index) => {
+                const option = document.createElement('option');
+                option.value = index + 1;
+                option.textContent = month;
+                startMonthSelect.appendChild(option);
+                endMonthSelect.appendChild(option.cloneNode(true));
+            });
+            
+            // Handle "Currently working on this project" checkbox
+            const currentlyWorkingCheckbox = document.getElementById('currentlyWorking');
+            const endDateGroup = document.getElementById('endMonth').parentElement.parentElement;
+            
+            currentlyWorkingCheckbox.addEventListener('change', function() {
+                endDateGroup.style.display = this.checked ? 'none' : 'block';
+            });
+
+            // Form submission logic (for demonstration)
+            const projectForm = document.getElementById('projectForm');
+            projectForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Project details saved!');
+                modal.style.display = 'none';
+                // Here you would add code to handle the form data, e.g., send it to a server.
+            });
+        });
+    </script>
+</body>
+</html>

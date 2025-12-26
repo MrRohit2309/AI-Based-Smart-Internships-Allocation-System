@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InternMatch AI - Healthcare Data Analyst Application</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e6eeff 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #2d3748;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 30px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo i {
+            font-size: 2rem;
+            color: #4f46e5;
+        }
+        
+        .logo h1 {
+            font-size: 1.8rem;
+            background: linear-gradient(90deg, #4f46e5 0%, #7c3aed 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #4f46e5;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        
+        .application-container {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 30px;
+        }
+        
+        .internship-details {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            height: fit-content;
+        }
+        
+        .internship-details h2 {
+            color: #4f46e5;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+        
+        .company-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .company-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .company-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+        }
+        
+        .company-info p {
+            color: #6b7280;
+        }
+        
+        .match-score {
+            background: #4f46e5;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-left: auto;
+        }
+        
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+            color: #4b5563;
+        }
+        
+        .detail-item i {
+            color: #4f46e5;
+            width: 20px;
+        }
+        
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .tag {
+            background: #eef2ff;
+            color: #4f46e5;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .policy-badges {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .badge {
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .badge-ad {
+            background: #f0f9ff;
+            color: #0369a1;
+        }
+        
+        .badge-diversity {
+            background: #fffbeb;
+            color: #d97706;
+        }
+        
+        .application-form {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .form-header {
+            margin-bottom: 30px;
+        }
+        
+        .form-header h2 {
+            color: #4f46e5;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+        
+        .form-header p {
+            color: #6b7280;
+        }
+        
+        .form-section {
+            margin-bottom: 30px;
+        }
+        
+        .form-section h3 {
+            font-size: 1.2rem;
+            color: #374151;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f3f4f6;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #374151;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #4f46e5;
+            outline: none;
+        }
+        
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .form-group-full {
+            grid-column: 1 / -1;
+        }
+        
+        .file-upload {
+            border: 2px dashed #e5e7eb;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+        
+        .file-upload:hover {
+            border-color: #4f46e5;
+        }
+        
+        .file-upload i {
+            font-size: 2rem;
+            color: #4f46e5;
+            margin-bottom: 10px;
+        }
+        
+        .file-upload p {
+            color: #6b7280;
+            margin-bottom: 10px;
+        }
+        
+        .file-upload span {
+            color: #4f46e5;
+            font-weight: 600;
+        }
+        
+        input[type="file"] {
+            display: none;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #4f46e5;
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: #4f46e5;
+            border: 2px solid #4f46e5;
+        }
+        
+        .btn-outline:hover {
+            background: #f5f7ff;
+        }
+        
+        .btn-primary {
+            background: #4f46e5;
+            color: white;
+            box-shadow: 0 4px 14px rgba(79, 70, 229, 0.4);
+        }
+        
+        .btn-primary:hover {
+            background: #4338ca;
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 900px) {
+            .application-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-brain"></i>
+                <h1>InternMatch AI</h1>
+            </div>
+            <a href="internships.html" class="back-link">
+                <i class="fas fa-arrow-left"></i>
+                Back to Internships
+            </a>
+        </header>
+        
+        <div class="application-container">
+            <div class="internship-details">
+                <h2>Internship Details</h2>
+                
+                <div class="company-header">
+                    <div class="company-logo">HC</div>
+                    <div class="company-info">
+                        <h3>Healthcare Data Analyst</h3>
+                        <p>HealthCare Innovations</p>
+                    </div>
+                    <div class="match-score">82% Match</div>
+                </div>
+                
+                <div class="detail-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Delhi</span>
+                </div>
+                <div class="detail-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>4 months</span>
+                </div>
+                <div class="detail-item">
+                    <i class="fas fa-rupee-sign"></i>
+                    <span>Stipend: ₹20,000/month</span>
+                </div>
+                <div class="detail-item">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>Healthcare or Data Science related</span>
+                </div>
+                
+                <div class="tags">
+                    <span class="tag">Python</span>
+                    <span class="tag">Data Visualization</span>
+                    <span class="tag">Statistics</span>
+                    <span class="tag">Tableau</span>
+                    <span class="tag">SQL</span>
+                    <span class="tag">Healthcare Data</span>
+                </div>
+                
+                <h3>Description</h3>
+                <p>Join our healthcare analytics team to work with real healthcare data. You'll analyze patient outcomes, treatment efficacy, and healthcare operations to derive insights that can improve patient care and operational efficiency.</p>
+                
+                <h3>Responsibilities</h3>
+                <ul style="padding-left: 20px; margin-bottom: 15px; color: #4b5563;">
+                    <li>Analyze healthcare datasets to identify trends and patterns</li>
+                    <li>Create data visualizations and dashboards for stakeholders</li>
+                    <li>Apply statistical methods to healthcare data</li>
+                    <li>Collaborate with healthcare professionals to understand data needs</li>
+                    <li>Ensure data privacy and compliance with healthcare regulations</li>
+                </ul>
+                
+                <div class="policy-badges">
+                    <span class="badge badge-ad">Aspirational District</span>
+                    <span class="badge badge-diversity">Diversity Focus</span>
+                </div>
+            </div>
+            
+            <div class="application-form">
+                <div class="form-header">
+                    <h2>Application Form</h2>
+                    <p>Complete your application for the Healthcare Data Analyst position at HealthCare Innovations</p>
+                </div>
+                
+                <form id="internshipApplication">
+                    <div class="form-section">
+                        <h3>Personal Information</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="firstName">First Name</label>
+                                <input type="text" id="firstName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName">Last Name</label>
+                                <input type="text" id="lastName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email Address</label>
+                                <input type="email" id="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone Number</label>
+                                <input type="tel" id="phone" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="location">Current City</label>
+                                <input type="text" id="location" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="dob">Date of Birth</label>
+                                <input type="date" id="dob" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3>Education Background</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="education">Highest Education</label>
+                                <select id="education" required>
+                                    <option value="">Select education level</option>
+                                    <option value="bachelor">Bachelor's Degree</option>
+                                    <option value="master">Master's Degree</option>
+                                    <option value="phd">PhD</option>
+                                    <option value="medical">Medical Degree</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="institute">Institute Name</label>
+                                <input type="text" id="institute" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="field">Field of Study</label>
+                                <input type="text" id="field" placeholder="E.g. Data Science, Healthcare Administration, Public Health..." required>
+                            </div>
+                            <div class="form-group">
+                                <label for="graduation">Graduation Year</label>
+                                <input type="month" id="graduation" required>
+                            </div>
+                            <div class="form-group form-group-full">
+                                <label for="courses">Relevant Courses</label>
+                                <input type="text" id="courses" placeholder="E.g. Statistics, Epidemiology, Data Analysis, Healthcare Systems...">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3>Healthcare & Data Skills</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="pythonSkill">Python Proficiency</label>
+                                <select id="pythonSkill">
+                                    <option value="">Select proficiency level</option>
+                                    <option value="beginner">Beginner</option>
+                                    <option value="intermediate">Intermediate</option>
+                                    <option value="advanced">Advanced</option>
+                                    <option value="expert">Expert</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="statsSkill">Statistics Knowledge</label>
+                                <select id="statsSkill">
+                                    <option value="">Select knowledge level</option>
+                                    <option value="basic">Basic</option>
+                                    <option value="intermediate">Intermediate</option>
+                                    <option value="advanced">Advanced</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="tableauSkill">Tableau Experience</label>
+                                <select id="tableauSkill">
+                                    <option value="">Select experience level</option>
+                                    <option value="none">None</option>
+                                    <option value="basic">Basic</option>
+                                    <option value="intermediate">Intermediate</option>
+                                    <option value="advanced">Advanced</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="sqlSkill">SQL Proficiency</label>
+                                <select id="sqlSkill">
+                                    <option value="">Select proficiency level</option>
+                                    <option value="beginner">Beginner</option>
+                                    <option value="intermediate">Intermediate</option>
+                                    <option value="advanced">Advanced</option>
+                                </select>
+                            </div>
+                            <div class="form-group form-group-full">
+                                <label for="healthcareKnowledge">Healthcare Knowledge</label>
+                                <select id="healthcareKnowledge">
+                                    <option value="">Select your level of healthcare knowledge</option>
+                                    <option value="none">No formal background</option>
+                                    <option value="basic">Basic understanding</option>
+                                    <option value="intermediate">Intermediate knowledge</option>
+                                    <option value="advanced">Advanced knowledge</option>
+                                </select>
+                            </div>
+                            <div class="form-group form-group-full">
+                                <label for="skills">Other Technical Skills</label>
+                                <input type="text" id="skills" placeholder="E.g. R, Excel, Power BI, Machine Learning...">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3>Experience & Portfolio</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="healthcareExp">Healthcare Experience</label>
+                                <select id="healthcareExp">
+                                    <option value="">Select experience level</option>
+                                    <option value="none">None</option>
+                                    <option value="academic">Academic only</option>
+                                    <option value="volunteer">Volunteer experience</option>
+                                    <option value="professional">Professional experience</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="dataExp">Data Analysis Experience</label>
+                                <select id="dataExp">
+                                    <option value="">Select experience level</option>
+                                    <option value="none">None</option>
+                                    <option value="academic">Academic projects</option>
+                                    <option value="personal">Personal projects</option>
+                                    <option value="professional">Professional experience</option>
+                                </select>
+                            </div>
+                            <div class="form-group form-group-full">
+                                <label for="projects">Relevant Projects</label>
+                                <textarea id="projects" placeholder="Describe any healthcare or data analysis projects you've worked on"></textarea>
+                            </div>
+                            <div class="form-group form-group-full">
+                                <label for="portfolio">Portfolio/GitHub Links</label>
+                                <input type="text" id="portfolio" placeholder="Links to your portfolio, GitHub, or relevant work">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3>Motivation & Availability</h3>
+                        <div class="form-grid">
+                            <div class="form-group form-group-full">
+                                <label for="motivation">Why are you interested in healthcare data analysis?</label>
+                                <textarea id="motivation" placeholder="Share what motivates you about this field"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="startDate">Available Start Date</label>
+                                <input type="date" id="startDate">
+                            </div>
+                            <div class="form-group">
+                                <label for="commitment">Weekly Time Commitment</label>
+                                <select id="commitment">
+                                    <option value="">Select hours per week</option>
+                                    <option value="20">20 hours</option>
+                                    <option value="30">30 hours</option>
+                                    <option value="40">40 hours</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3>Supporting Documents</h3>
+                        <div class="form-grid">
+                            <div class="form-group form-group-full">
+                                <label for="resume">Upload Resume/CV</label>
+                                <div class="file-upload" onclick="document.getElementById('resume').click()">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <p>Click to upload your resume</p>
+                                    <span>PDF, DOC, DOCX (Max 5MB)</span>
+                                </div>
+                                <input type="file" id="resume" accept=".pdf,.doc,.docx">
+                            </div>
+                            <div class="form-group form-group-full">
+                                <label for="coverletter">Cover Letter (Optional)</label>
+                                <textarea id="coverletter" placeholder="Why are you interested in this position and what makes you a good fit?"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="terms" required>
+                            <label for="terms">I agree to the terms and conditions and privacy policy</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="accuracy">
+                            <label for="accuracy">I confirm that the information provided is accurate</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline">Save Draft</button>
+                        <button type="submit" class="btn btn-primary">Submit Application</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('internshipApplication').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Form validation
+            const firstName = document.getElementById('firstName').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const education = document.getElementById('education').value;
+            const terms = document.getElementById('terms').checked;
+            
+            if (!firstName || !email || !phone || !education || !terms) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert('Please enter a valid email address');
+                return;
+            }
+            
+            // In a real application, you would submit the form data to a server here
+            alert('Application submitted successfully!');
+            // Redirect to success page or dashboard
+            // window.location.href = 'application-success.html';
+        });
+        
+        // Show selected file name
+        document.getElementById('resume').addEventListener('change', function(e) {
+            if (this.files.length > 0) {
+                const fileName = this.files[0].name;
+                document.querySelector('.file-upload p').textContent = fileName;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login - InternMatch AI</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif}
+    body{background:linear-gradient(135deg,#f5f7fa 0%,#c3cfe2 100%);color:#333;line-height:1.6;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+    .container{max-width:1000px;width:100%}
+    header{text-align:center;margin-bottom:30px}
+    .logo{display:flex;align-items:center;justify-content:center;gap:15px;margin-bottom:10px}
+    .logo i{font-size:2.5rem;color:#4361ee}
+    .logo h1{font-size:2.2rem;background:linear-gradient(90deg,#4361ee 0%,#3a0ca3 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .tagline{font-size:1.2rem;color:#4a4e69;max-width:600px;margin:0 auto}
+    .auth-container{display:grid;grid-template-columns:1fr 1fr;gap:30px;background:white;border-radius:20px;overflow:hidden;box-shadow:0 15px 30px rgba(0,0,0,0.1)}
+    .auth-option{padding:40px}
+    .auth-header{margin-bottom:30px}
+    .auth-header h2{font-size:1.8rem;color:#3a0ca3;margin-bottom:10px}
+    .auth-header p{color:#6c757d}
+    .form-group{margin-bottom:20px}
+    .form-group label{display:block;margin-bottom:8px;font-weight:600;color:#4a4e69}
+    .form-control{width:100%;padding:15px;border:1px solid #ddd;border-radius:10px;font-size:1rem;transition:border-color .3s}
+    .form-control:focus{outline:none;border-color:#4361ee;box-shadow:0 0 0 3px rgba(67,97,238,0.1)}
+    .password-input{position:relative}
+    .toggle-password{position:absolute;right:15px;top:50%;transform:translateY(-50%);color:#6c757d;cursor:pointer}
+    .form-options{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px}
+    .remember-me{display:flex;align-items:center;gap:8px}
+    .remember-me input{width:18px;height:18px}
+    .forgot-password{color:#4361ee;text-decoration:none;font-weight:600}
+    .btn{display:block;width:100%;padding:15px;border:none;border-radius:10px;font-size:1rem;font-weight:600;cursor:pointer;transition:all .3s}
+    .btn-primary{background:#4361ee;color:white}
+    .btn-primary:hover{background:#3a0ca3;transform:translateY(-2px)}
+    .divider{display:flex;align-items:center;margin:25px 0;color:#6c757d}
+    .divider::before,.divider::after{content:"";flex:1;height:1px;background:#ddd}
+    .divider span{padding:0 15px}
+    .btn-google{display:flex;align-items:center;justify-content:center;gap:10px;background:white;color:#4a4e69;border:1px solid #ddd}
+    .btn-google:hover{background:#f8f9fa}
+    .auth-switch{text-align:center;margin-top:30px;color:#6c757d}
+    .auth-switch a{color:#4361ee;text-decoration:none;font-weight:600;margin-left:5px}
+    .auth-image{background:linear-gradient(120deg,#3a0ca3 0%,#4361ee 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;color:white;padding:40px;position:relative;overflow:hidden}
+    .auth-image-content{position:relative;z-index:2;text-align:center;max-width:400px}
+    .auth-image h2{font-size:2rem;margin-bottom:20px}
+    .auth-image p{opacity:.9;margin-bottom:30px}
+    .features{list-style:none;text-align:left}
+    .features li{margin-bottom:15px;display:flex;align-items:center;gap:10px}
+    .feature-icon{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center}
+    .auth-image::before{content:"";position:absolute;top:-50px;right:-50px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,0.1)}
+    .auth-image::after{content:"";position:absolute;bottom:-80px;left:-80px;width:250px;height:250px;border-radius:50%;background:rgba(255,255,255,0.1)}
+    @media(max-width:900px){.auth-container{grid-template-columns:1fr}.auth-image{display:none}}
+    .g_id_signin{display:none!important;height:0;width:0;overflow:hidden;position:absolute}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo"><i class="fas fa-brain"></i><h1>InternMatch AI</h1></div>
+      <p class="tagline">Smart internship matching with AI-powered recommendations</p>
+    </header>
+
+    <div class="auth-container">
+      <!-- LOGIN SECTION -->
+      <div class="auth-option" id="loginSection">
+        <div class="auth-header">
+          <h2>Sign In to Your Account</h2>
+          <p>Enter your details to access your personalized dashboard</p>
+        </div>
+
+        <form id="loginForm">
+          <div class="form-group">
+            <label for="loginEmail">Email Address</label>
+            <input type="email" id="loginEmail" class="form-control" placeholder="Enter your email" required>
+          </div>
+
+          <div class="form-group">
+            <label for="loginPassword">Password</label>
+            <div class="password-input">
+              <input type="password" id="loginPassword" class="form-control" placeholder="Enter your password" required>
+              <span class="toggle-password" id="toggleLoginPassword"><i class="far fa-eye"></i></span>
+            </div>
+          </div>
+
+          <div class="form-options">
+            <div class="remember-me">
+              <input type="checkbox" id="rememberMe">
+              <label for="rememberMe">Remember me</label>
+            </div>
+            <a href="#" class="forgot-password">Forgot password?</a>
+          </div>
+
+          <!-- UPDATED: Proper login redirect with localStorage -->
+          <button type="submit" class="btn btn-primary">Sign In</button>
+        </form>
+
+        <div class="divider"><span>Or continue with</span></div>
+        <button class="btn btn-google" id="customGoogleSignInButton">
+          <i class="fab fa-google"></i> Sign in with Google
+        </button>
+
+        <div id="g_id_onload"
+          data-client_id="1046574091870-vfgmjhmgmgunkuqiumi05c2rgbj3ovgp.apps.googleusercontent.com"
+          data-context="signin"
+          data-ux_mode="popup"
+          data-callback="handleCredentialResponse">
+        </div>
+        <div class="g_id_signin" data-type="standard" data-size="large" data-auto_prompt="false"></div>
+
+        <div class="auth-switch">
+          Don't have an account? <a href="#" id="switchToSignUp">Sign up</a>
+        </div>
+      </div>
+
+      <!-- SIGNUP SECTION -->
+      <div class="auth-option" id="signupSection" style="display:none;">
+        <div class="auth-header">
+          <h2>Create New Account</h2>
+          <p>Join us to find your perfect internship match</p>
+        </div>
+
+        <form id="signupForm">
+          <div class="form-group">
+            <label for="fullName">Full Name</label>
+            <input type="text" id="fullName" class="form-control" placeholder="Enter your full name" required>
+          </div>
+
+          <div class="form-group">
+            <label for="signupEmail">Email Address</label>
+            <input type="email" id="signupEmail" class="form-control" placeholder="Enter your email" required>
+          </div>
+
+          <div class="form-group">
+            <label for="signupPassword">Password</label>
+            <div class="password-input">
+              <input type="password" id="signupPassword" class="form-control" placeholder="Create a password" required>
+              <span class="toggle-password" id="toggleSignupPassword"><i class="far fa-eye"></i></span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="confirmPassword">Confirm Password</label>
+            <div class="password-input">
+              <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm your password" required>
+              <span class="toggle-password" id="toggleConfirmPassword"><i class="far fa-eye"></i></span>
+            </div>
+          </div>
+
+          <div class="form-options">
+            <div class="remember-me">
+              <input type="checkbox" id="termsAgree" required>
+              <label for="termsAgree">I agree to the Terms & Privacy</label>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Create Account</button>
+        </form>
+
+        <div class="divider"><span>Or continue with</span></div>
+        <button class="btn btn-google" id="customGoogleSignUpButton">
+          <i class="fab fa-google"></i> Sign up with Google
+        </button>
+
+        <div class="auth-switch">
+          Already have an account? <a href="#" id="switchToLogin">Sign in</a>
+        </div>
+      </div>
+
+      <!-- IMAGE PANEL -->
+      <div class="auth-image">
+        <div class="auth-image-content">
+          <h2>Find Your Perfect Internship</h2>
+          <p>AI-powered matching for better career opportunities</p>
+          <ul class="features">
+            <li><div class="feature-icon"><i class="fas fa-robot"></i></div><span>AI-powered matching algorithm</span></li>
+            <li><div class="feature-icon"><i class="fas fa-briefcase"></i></div><span>1000+ internship opportunities</span></li>
+            <li><div class="feature-icon"><i class="fas fa-chart-line"></i></div><span>Personalized recommendations</span></li>
+            <li><div class="feature-icon"><i class="fas fa-users"></i></div><span>Diversity and inclusion focused</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+/* =========================
+   GOOGLE LOGIN CALLBACK
+========================= */
+window.handleCredentialResponse = (response) => {
+  const idToken = response.credential;
+
+  fetch("http://localhost:3000/auth/google", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ token: idToken }),
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (!data.user) {
+        alert("Google login failed");
+        return;
+      }
+
+      // ✅ SINGLE SOURCE OF TRUTH
+      localStorage.setItem("userId", data.user.user_id);
+      localStorage.setItem("userEmail", data.user.email);
+      localStorage.setItem(
+        "userName",
+        data.user.full_name || data.user.name
+      );
+
+      // Optional
+      sessionStorage.setItem("userId", data.user.user_id);
+      sessionStorage.setItem("userEmail", data.user.email);
+
+      alert("✅ Google login successful!");
+      window.location.href = "Profile_Section.html";
+    })
+    .catch(err => {
+      console.error(err);
+      alert("❌ Google authentication failed");
+    });
+};
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  /* =========================
+   PASSWORD TOGGLE
+========================= */
+const togglePassword = (inputId, toggleId) => {
+  const input = document.getElementById(inputId);
+  const toggle = document.getElementById(toggleId);
+
+  if (!input || !toggle) return;
+
+  toggle.addEventListener("click", () => {
+    input.type = input.type === "password" ? "text" : "password";
+    toggle.querySelector("i").classList.toggle("fa-eye");
+    toggle.querySelector("i").classList.toggle("fa-eye-slash");
+  });
+};
+
+togglePassword("loginPassword", "toggleLoginPassword");
+togglePassword("signupPassword", "toggleSignupPassword");
+togglePassword("confirmPassword", "toggleConfirmPassword");
+
+/* =========================
+   SWITCH LOGIN ↔ SIGNUP
+========================= */
+const loginSection = document.getElementById("loginSection");
+const signupSection = document.getElementById("signupSection");
+const switchToSignUp = document.getElementById("switchToSignUp");
+const switchToLogin = document.getElementById("switchToLogin");
+
+switchToSignUp.addEventListener("click", (e) => {
+  e.preventDefault();
+  loginSection.style.display = "none";
+  signupSection.style.display = "block";
+});
+
+switchToLogin.addEventListener("click", (e) => {
+  e.preventDefault();
+  signupSection.style.display = "none";
+  loginSection.style.display = "block";
+});
+
+
+  /* =========================
+     LOGIN FORM
+  ========================= */
+  document.getElementById("loginForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById("loginEmail").value.trim();
+    const password = document.getElementById("loginPassword").value.trim();
+
+
+    if (!email || !password) {
+      alert("Please enter email and password");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://localhost:3000/api/profile/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok && result.success && result.user) {
+
+        // ✅ SINGLE SOURCE OF TRUTH
+        localStorage.setItem("userId", result.user.user_id);
+        localStorage.setItem("userEmail", result.user.email);
+        localStorage.setItem(
+          "userName",
+          result.user.name || result.user.full_name
+        );
+
+        // Optional
+        sessionStorage.setItem("userId", result.user.user_id);
+        sessionStorage.setItem("userEmail", result.user.email);
+
+        alert(`✅ Welcome ${result.user.name || result.user.full_name}`);
+        window.location.href = "Profile_Section.html";
+
+      } else {
+        alert(result.message || "Invalid credentials");
+      }
+
+    } catch (err) {
+      console.error(err);
+      alert("Server not reachable");
+    }
+  });
+
+  /* =========================
+     SIGNUP FORM
+  ========================= */
+  document.getElementById("signupForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const full_name = document.getElementById("fullName").value.trim();
+    const email = document.getElementById("signupEmail").value.trim();
+    const password = document.getElementById("signupPassword").value.trim();
+    const confirmPassword = document.getElementById("confirmPassword").value.trim();
+
+
+    if (!full_name || !email || !password) {
+      alert("Fill all fields");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
+
+    try {
+      const res = await fetch("http://localhost:3000/api/profile/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ full_name, email, password }),
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+
+        // ✅ SINGLE SOURCE OF TRUTH
+        localStorage.setItem("userId", data.user_id);
+        localStorage.setItem("userEmail", email);
+        localStorage.setItem("userName", full_name);
+
+        sessionStorage.setItem("userId", data.user_id);
+        sessionStorage.setItem("userEmail", email);
+
+        alert("✅ Account created successfully");
+        window.location.href = "Profile_Section.html";
+
+      } else {
+        alert(data.message || "Signup failed");
+      }
+
+    } catch (err) {
+      console.error(err);
+      alert("Server error");
+    }
+  });
+
+  /* =========================
+     GOOGLE BUTTON TRIGGER
+  ========================= */
+  const googleClick = (e) => {
+    e.preventDefault();
+    document.querySelector('.g_id_signin div[role="button"]')?.click();
+  };
+
+  customGoogleSignInButton.addEventListener("click", googleClick);
+  customGoogleSignUpButton.addEventListener("click", googleClick);
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Applications - InternMatch AI</title>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+  <style>
+    * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  color: #333;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 0;
+  margin-bottom: 20px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo i {
+  font-size: 2.2rem;
+  color: #3a0ca3;
+}
+
+.logo h1 {
+  font-size: 2rem;
+  background: linear-gradient(90deg, #4361ee 0%, #3a0ca3 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+nav ul {
+  display: flex;
+  gap: 25px;
+  list-style: none;
+}
+
+nav a {
+  text-decoration: none;
+  color: #4a4e69;
+  font-weight: 600;
+  transition: color 0.3s;
+}
+
+nav a:hover,
+nav a.active {
+  color: #3a0ca3;
+}
+
+.page-header {
+  background: linear-gradient(120deg, #3a0ca3 0%, #4361ee 100%);
+  color: white;
+  padding: 25px;
+  border-radius: 15px;
+  margin-bottom: 25px;
+}
+
+.page-header h2 {
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.applications-container {
+  background: white;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.section-header h3 {
+  font-size: 1.3rem;
+  color: #3a0ca3;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.refresh-btn {
+  color: #4361ee;
+  font-weight: 600;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.refresh-btn:hover {
+  text-decoration: underline;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+th,
+td {
+  padding: 14px;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+}
+
+th {
+  color: #6c757d;
+  font-weight: 600;
+}
+
+.status {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.status-pending {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.status-active {
+  background: #d4edda;
+  color: #155724;
+}
+
+.status-inactive {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.action-btn {
+  background: #f2f4ff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.action-btn:hover {
+  background: #4361ee;
+  color: white;
+}
+
+footer {
+  text-align: center;
+  margin-top: 40px;
+  color: #6c757d;
+}
+
+/* =============================
+   Modal Styles
+============================= */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-box {
+  background: white;
+  padding: 25px 30px;
+  border-radius: 15px;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  text-align: left;
+  position: relative;
+}
+
+.modal-box h3 {
+  color: #3a0ca3;
+  margin-bottom: 15px;
+}
+
+.modal-box p {
+  margin-bottom: 10px;
+  color: #333;
+}
+
+/* ✅ Buttons properly aligned and themed */
+.modal-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-top: 25px;
+}
+
+.btn-accept {
+  background: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-weight: 500;
+}
+
+.btn-accept:hover {
+  background: #43a047;
+}
+
+.btn-decline {
+  background: #f44336;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-weight: 500;
+}
+
+.btn-decline:hover {
+  background: #d32f2f;
+}
+
+.btn-close-modal {
+  background: #4361ee;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-weight: 500;
+}
+
+.btn-close-modal:hover {
+  background: #3a0ca3;
+}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <i class="fas fa-brain"></i>
+        <h1>InternMatch AI</h1>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="Admin_Section.html">Admin</a></li>
+          <li><a href="Applications_Section.html" class="active">Applications</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <section class="page-header">
+      <h2><i class="fas fa-file-alt"></i> Application Management</h2>
+      <p>View and manage all internship applications</p>
+    </section>
+
+    <div class="applications-container">
+      <div class="section-header">
+        <h3><i class="fas fa-folder-open"></i> All Applications</h3>
+        <a href="#" id="refreshApplications" class="refresh-btn">Refresh <i class="fas fa-sync-alt"></i></a>
+      </div>
+
+      <table id="applicationsTable">
+        <thead>
+          <tr>
+            <th>Applicant</th>
+            <th>Internship</th>
+            <th>Status</th>
+            <th>Company</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td colspan="5" style="text-align:center;">Loading...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer>
+      <p>© 2025 InternMatch AI | Empowering internship opportunities</p>
+    </footer>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal" id="applicationModal">
+    <div class="modal-box">
+      <div id="modalContent"></div>
+      <!-- <button id="closeModalBtn" class="btn-close-modal">Close</button> -->
+    </div>
+  </div>
+
+ <script>
+document.addEventListener("DOMContentLoaded", () => {
+  loadApplicationsFromDB();
+
+  document.getElementById("refreshApplications").addEventListener("click", (e) => {
+    e.preventDefault();
+    loadApplicationsFromDB();
+  });
+});
+
+async function loadApplicationsFromDB() {
+  try {
+    const res = await fetch("http://127.0.0.1:3000/applications/summary");
+    const data = await res.json();
+
+    if (!data.success) {
+      showNoDataMessage();
+      return;
+    }
+
+    renderApplicationsTable(data.applications);
+  } catch (err) {
+    console.error("Error loading applications:", err);
+    showNoDataMessage();
+  }
+}
+
+function renderApplicationsTable(applications) {
+  const tableBody = document.querySelector("#applicationsTable tbody");
+  tableBody.innerHTML = "";
+
+  if (!applications || applications.length === 0) {
+    showNoDataMessage();
+    return;
+  }
+
+  applications.forEach((app) => {
+    let statusClass = "status-pending";
+    const status = app.application_status?.toLowerCase();
+
+    if (status === "accepted") statusClass = "status-active";
+    else if (status === "rejected") statusClass = "status-inactive";
+
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${app.user_name}</td>
+      <td>${app.internship_title}</td>
+      <td><span class="status ${statusClass}">${app.application_status}</span></td>
+      <td>${app.company_name}</td>
+      <td>
+        <button class="action-btn btn-view"
+          data-id="${app.application_id}"
+          data-name="${app.user_name}"
+          data-email="${app.user_email}"
+          data-internship="${app.internship_title}"
+          data-company="${app.company_name}"
+          data-status="${app.application_status}"
+          data-date="${new Date(app.applied_at).toLocaleString()}">
+          <i class="fas fa-eye"></i>
+        </button>
+      </td>
+    `;
+    tableBody.appendChild(row);
+  });
+
+  document.querySelectorAll(".btn-view").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      const d = e.currentTarget.dataset;
+      openApplicationModal(d);
+    });
+  });
+}
+
+function showNoDataMessage() {
+  const tableBody = document.querySelector("#applicationsTable tbody");
+  tableBody.innerHTML = `
+    <tr>
+      <td colspan="5" style="text-align:center; color:#6c757d;">No applications found</td>
+    </tr>`;
+}
+
+function openApplicationModal(d) {
+  const modal = document.getElementById("applicationModal");
+  const modalContent = document.getElementById("modalContent");
+
+  modalContent.innerHTML = `
+    <h3><i class="fas fa-id-badge"></i> Application Details</h3>
+    <p><strong>Applicant:</strong> ${d.name}</p>
+    <p><strong>Email:</strong> ${d.email}</p>
+    <p><strong>Internship:</strong> ${d.internship}</p>
+    <p><strong>Company:</strong> ${d.company}</p>
+    <p><strong>Status:</strong> <span id="statusText">${d.status}</span></p>
+    <p><strong>Applied On:</strong> ${d.date}</p>
+
+    <div class="modal-actions">
+      <button class="btn-accept" onclick="updateStatus(${d.id}, 'Accepted')">Accept</button>
+      <button class="btn-decline" onclick="updateStatus(${d.id}, 'Rejected')">Decline</button>
+      <button id="closeModalBtn" class="btn-close-modal">Close</button>
+    </div>
+  `;
+
+  modal.style.display = "flex";
+
+  document.getElementById("closeModalBtn").addEventListener("click", () => {
+    modal.style.display = "none";
+  });
+}
+
+
+async function updateStatus(id, newStatus) {
+  try {
+    const res = await fetch(`http://127.0.0.1:3000/applications/update-status/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status: newStatus }),
+    });
+
+    const data = await res.json();
+    if (data.success) {
+      alert(`✅ Application ${newStatus} successfully!`);
+      document.getElementById("applicationModal").style.display = "none";
+      loadApplicationsFromDB(); // refresh table
+    } else {
+      alert("❌ Failed to update: " + data.message);
+    }
+  } catch (err) {
+    console.error("Error updating status:", err);
+    alert("Error updating status. Check console.");
+  }
+}
+
+window.addEventListener("click", (e) => {
+  const modal = document.getElementById("applicationModal");
+  if (e.target === modal) modal.style.display = "none";
+});
+</script>
+</body>
+</html>
+
+
+
+

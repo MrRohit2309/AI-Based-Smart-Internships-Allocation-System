@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find My Match - InternMatch AI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 30px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo i {
+            font-size: 2.5rem;
+            color: #4361ee;
+        }
+        
+        .logo h1 {
+            font-size: 2.2rem;
+            background: linear-gradient(90deg, #4361ee 0%, #3a0ca3 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: #4a4e69;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        
+        nav a:hover, nav a.active {
+            color: #4361ee;
+        }
+        
+        .page-header {
+            background: linear-gradient(120deg, #3a0ca3 0%, #4361ee 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .page-header h2 {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .page-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .content-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            color: #3a0ca3;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #4a4e69;
+            font-size: 1.1rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #4361ee;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .skills-input-group {
+            position: relative;
+        }
+
+        .skills-input-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            min-height: 50px;
+            cursor: text;
+        }
+
+        .skill-tag {
+            background: #e7f5ff;
+            color: #4361ee;
+            padding: 5px 12px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.9rem;
+        }
+
+        .skill-tag .remove-skill {
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        #skillInput {
+            border: none;
+            outline: none;
+            padding: 0;
+            font-size: 1rem;
+            width: 100%;
+            flex-grow: 1;
+            background: transparent;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            padding: 12px 25px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            background: #4361ee;
+            color: white;
+            text-decoration: none;
+            margin-top: 20px;
+            width: 100%;
+        }
+        
+        .btn-primary:hover {
+            background: #3a0ca3;
+        }
+
+        @media (max-width: 600px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            color: #6c757d;
+            margin-top: 40px;
+            border-top: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-brain"></i>
+                <h1>InternMatch AI</h1>
+            </div>
+        </header>
+
+        <section class="page-header">
+            <h2><i class="fas fa-search-location"></i> Find Your Match</h2>
+            <p>Tell us about yourself to find the perfect internship</p>
+        </section>
+
+        <div class="main-content">
+            <div class="content-card">
+                <h3 class="card-title">Your Profile and Preferences</h3>
+                
+                <form id="matchForm">
+                    <div class="form-group">
+                        <label for="name">Your Name</label>
+                        <input type="text" id="name" class="form-control" placeholder="e.g., Jane Doe">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="skills">Skills & Expertise</label>
+                        <div class="skills-input-container" id="skillsContainer">
+                            <input type="text" id="skillInput" placeholder="Type a skill and press Enter">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="field">Preferred Field</label>
+                            <input type="text" id="field" class="form-control" placeholder="e.g., Web Development, Marketing">
+                        </div>
+                        <div class="form-group">
+                            <label for="location">Preferred Location</label>
+                            <input type="text" id="location" class="form-control" placeholder="e.g., Remote, Bangalore, Mumbai">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="experience">Experience Level</label>
+                        <select id="experience" class="form-control">
+                            <option value="beginner">Beginner</option>
+                            <option value="intermediate">Intermediate</option>
+                            <option value="advanced">Advanced</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Internship Type</label>
+                        <div style="display: flex; gap: 15px;">
+                            <label><input type="checkbox" name="type" value="full-time" checked> Full-time</label>
+                            <label><input type="checkbox" name="type" value="part-time"> Part-time</label>
+                            <label><input type="checkbox" name="type" value="remote"> Remote</label>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary">Find My Best Match</button>
+                </form>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2023 InternMatch AI | PM Internship Scheme Initiative</p>
+            <p>Smart matching for better opportunities and inclusive growth</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('matchForm');
+            const skillsContainer = document.getElementById('skillsContainer');
+            const skillInput = document.getElementById('skillInput');
+
+            // Handle skill tag creation and removal
+            skillsContainer.addEventListener('click', function() {
+                skillInput.focus();
+            });
+
+            skillInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && this.value.trim() !== '') {
+                    e.preventDefault();
+                    
+                    const skill = this.value.trim();
+                    const skillTag = document.createElement('div');
+                    skillTag.className = 'skill-tag';
+                    skillTag.innerHTML = `${skill}<span class="remove-skill">&times;</span>`;
+                    
+                    skillsContainer.insertBefore(skillTag, skillInput);
+                    this.value = '';
+                    
+                    skillTag.querySelector('.remove-skill').addEventListener('click', function() {
+                        skillsContainer.removeChild(skillTag);
+                    });
+                }
+            });
+
+            // Handle form submission
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Finding your match... (This is a frontend demo)');
+            });
+        });
+    </script>
+</body>
+</html>
